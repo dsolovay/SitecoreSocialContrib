@@ -80,12 +80,10 @@
     <Folder Include="sitecore\shell\Themes\Standard\Custom\32x32\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ATTRIBUTIONS.txt" />
     <Content Include="layouts\system\Social\Connector\Login with Instagram.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
     <Content Include="references\Sitecore.Kernel.dll" />
-    <Content Include="LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
