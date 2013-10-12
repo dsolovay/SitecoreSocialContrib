@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{040BEB94-86E0-472F-BD66-CC56E5340F23}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>scSocialContrib.Instagram</RootNamespace>
+    <AssemblyName>scSocialContrib.Instagram</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>references\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Kernel, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Sitecore.Kernel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sitecore.Social.Core">
+      <HintPath>lib\Sitecore.Social.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ImageUtil\ImageDto.cs" />
+    <Compile Include="ImageUtil\ThubmnailExtractor.cs" />
+    <Compile Include="layouts\system\Social\Connector\Login with Instagram.ascx.cs">
+      <DependentUpon>Login with Instagram.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\system\Social\Connector\Login with Instagram.ascx.designer.cs">
+      <DependentUpon>Login with Instagram.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\InstagramProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App_Config\Include\Sitecore.Social.Instagram.config" />
+    <None Include="App_Config\Include\Sitecore.Social.ProfileMapping.Instagram.config" />
+    <None Include="references\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="deploy.txt.example" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="sitecore\shell\Themes\Standard\Custom\16x16\" />
+    <Folder Include="sitecore\shell\Themes\Standard\Custom\24x24\" />
+    <Folder Include="sitecore\shell\Themes\Standard\Custom\32x32\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ATTRIBUTIONS.txt" />
+    <Content Include="layouts\system\Social\Connector\Login with Instagram.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="references\Sitecore.Kernel.dll" />
+    <Content Include="LICENSE.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>-->
+  <Target Name="DeployToWeb">
+    <ReadLinesFromFile File="deploy.txt">
+      <Output PropertyName="DeployPath" TaskParameter="Lines" />
+    </ReadLinesFromFile>
+    <Message Text="DeployToWeb reached. Deploy path is $(DeployPath).">
+    </Message>
+    <CreateItem Include="App_Config\**\*.*;  bin\*.dll;layouts\**\*.aspx; layouts\**\*.ascx;sitecore\**\*.*" Exclude="**\.git\**\*.*">
+      <Output ItemName="DeployFiles" TaskParameter="Include" />
+    </CreateItem>
+    <Copy SourceFiles="@(DeployFiles)" DestinationFiles="@(DeployFiles->'$(DeployPath)\%(RelativeDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="AfterBuild">
+    <CallTarget Targets="DeployToWeb" Condition="Exists('deploy.txt')" />
+  </Target>
+</Project>
