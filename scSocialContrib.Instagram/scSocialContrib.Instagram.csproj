@@ -42,7 +42,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Sitecore.Social.Core">
-      <HintPath>lib\Sitecore.Social.Core.dll</HintPath>
+      <HintPath>references\Sitecore.Social.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
