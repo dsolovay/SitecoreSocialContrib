@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.UI;
+using Sitecore.Globalization;
 using Sitecore.Social.Core.Connector;
 
 namespace scSocialContrib.Instagram.layouts.system.Social.Connector
@@ -8,7 +9,11 @@ namespace scSocialContrib.Instagram.layouts.system.Social.Connector
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-
+			instagramLoginButton.ToolTip = Translate.Text(
+				Sitecore.Context.User.IsAuthenticated ? 
+				"Attach Instagram account" : 
+				"Login with Instagram"
+				);
 		}
 
 		protected void InstagramLoginButtonOneClick(object sender, ImageClickEventArgs e)
